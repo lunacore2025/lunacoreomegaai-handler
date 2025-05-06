@@ -13,6 +13,7 @@ const openai = new OpenAIApi(configuration);
 
 // 기본 응답 - GET 요청 테스트용
 app.get('/', (req, res) => {
+  console.log('GET / 호출됨');  // 🔥 반드시 있어야 함
   res.send('LunaCoreOmegaAI 핸들러가 작동 중입니다!');
 });
 
@@ -26,7 +27,7 @@ app.post('/ask', async (req, res) => {
 
   try {
     const response = await openai.createChatCompletion({
-      model: 'gpt-4', // 필요 시 gpt-3.5-turbo로 변경 가능
+      model: 'gpt-4',
       messages: [
         { role: 'system', content: '당신은 친절하고 전문적인 AI입니다.' },
         { role: 'user', content: question },
@@ -41,8 +42,8 @@ app.post('/ask', async (req, res) => {
   }
 });
 
-// 서버 시작
+// 🔥 Cloud Run에서 반드시 필요한 포트 로그
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`서버 실행 중: 포트 ${PORT}`);
+  console.log(`✅ 서버 실행됨! 포트: ${PORT}`);  // ✅ 이 로그가 반드시 있어야 배포 확인 가능
 });
